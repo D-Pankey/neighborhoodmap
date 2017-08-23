@@ -1,0 +1,148 @@
+/*=======MODEL========*/
+var mrMap;
+var markers = [];
+// The following function to initializes the map
+function initMap() {
+  mrMap = new google.maps.Map(document.getElementById('map'), {
+    center: {
+      lat: 40.7413549,
+      lng: -73.99802439999996
+    },
+    zoom: 12
+  });
+
+
+var infowindow = new google.maps.InfoWindow();
+
+
+// var marker, i;
+
+  // The following group uses the location array to create an array of markers on initialize.
+  for (var i = 0; i < locations.length; i++) {
+  var marker = new google.maps.Marker({
+    position: new google.maps.LatLng(locations[i].location),
+    map: mrMap,
+    animation: google.maps.Animation.DROP,
+    icon: 'images/rail.png'
+ });
+   
+   
+
+    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent('<div><strong>' + locations[i].title+'</strong><br>' + locations[i].address + '<br>' +'Subway:' + locations[i].subway +'</div>');
+          infowindow.open(map, marker);
+        };
+      })(marker, i));
+
+  }
+}
+
+  
+  //These are the markers that will be shown to the users
+  var locations = [
+    {
+      title: 'Brooklyn Bridge',
+      location: {
+        lat: 40.7713024,
+        lng: -73.9632393
+      },
+      address:'Bridge St, Brooklyn, NY 11201',
+      subway:'4,5,6'
+    },
+
+    {
+      title: 'Central Park',
+      location: {
+        lat: 40.785091,
+        lng: -73.968285
+      },
+      address:'59th Street and 5th Ave, NY, NY 10020',
+      subway: 'A, B, C, D, 1'
+    },
+
+    {
+      title: 'Madison Square Garden',
+      location: {
+        lat: 40.750298,
+        lng: -73.993324
+      },
+      address: '4 Pennsylvania Plaza, NY, NY ',
+      subway: 'A, C, E, 1, 2, 3'
+    },
+
+    {
+      title: 'Broadway Theater',
+      location: {
+        lat: 40.753496986,
+        lng: -73.985162726
+      },
+      address:'1681 Broadway NY, NY 10019',
+      subway:'B, D, E'
+    },
+
+    {
+      title: 'The American Museum of Natural History ',
+      location: {
+        lat: 40.7813241,
+        lng: -73.9739882
+      },
+      address:'Central Park West at 79th Street NY,NY 10024',
+      subway:'A, B, C'
+    }];
+
+    var Location = function(data) {
+      this.title = ko.observable(data.title);
+      this.address = ko.observable(data.address);
+      this.subway = ko.observable(data.subway);
+    };
+   
+/*============View Model==========*/
+/*since we want our array of objects to be
+able to detect changes as well as responf to changes we
+use observableArray & pass array of object (locations) through
+it.  Referred to */ 
+
+var viewModel = function () {
+  var self = this;
+
+  self.places= ko.observableArray(locations);
+
+/** Set currentLocation to first object in object array.
+ When particular object is clicked from list, change currentLocation
+ value to the clicked location.  Also trigger a click on the marker.
+*/
+
+// this.currentLocation = ko.observable(self.places()[0]);
+// this.setLocation = function(clickedLocation) {
+//   self.currentLocation(clickedLocation);
+//   google.maps.event.trigger(clickedLocation.marker, 'click');
+
+};
+
+/** Setting up search so it filters through object array or locations
+//    while allowing lowercase typing to bring back relevant results.
+//      */
+//     self.query = ko.observable('');
+//     self.search = ko.computed(function() {
+//         return ko.utils.arrayFilter(self.places(), function(place) {
+//             return place.title.toLowerCase().indexOf(self.query().toLowerCase()) >= 0;
+//         });
+//     });
+// /*this displays list of locations in list view */
+//  self.search = ko.computed(function() {
+//         for (var i = 0; i < locations.length; i++) {
+//             locations[i].setVisible(true);
+//         }
+//       });
+// /*If there are objects that dont contain what is typed in the input hide those objects */
+//         return ko.utils.arrayFilter(locations, function(place) {
+//             if (place.name.toLowerCase().indexOf(self.query().toLowerCase()) >= 0) {
+//                 return true;
+//             }
+
+//             place.marker.setVisible(false);
+//             return false;
+//         });
+//     };
+ko.applyBindings(new viewModel());
