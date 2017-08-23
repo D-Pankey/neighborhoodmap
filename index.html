@@ -9,21 +9,18 @@
 </head>
 <body>
 
- <nav id="drawer">
-  <div id="searchmenu">
-    <div id="project">
-      <h3> NYC's Hot Spots</h3>
-    </div>
-    <input id="searchbox" placeholder="Search" type="search" ></input>
-    <div id = "menu">
-    <ul data-bind="foreach: locations">
-      <a>
-        <li data-bind="text:title"></li>
-      </a>
+ <div class="container">
+  <div class="sidebar">
+    <input placeholder="Hot spot..." data-bind="textInput: filter" />
+
+    <ul id="menu" data-bind="foreach: filteredItems">
+      <li data-bind="text: title,click: $parent.setLoc"></li>
     </ul>
-    </div>
-    </div>
-    </nav>
+  </div>
+  <div id="map">
+
+  </div>
+</div>
     <main id="map"></main>
    <!--TODO: We want to Load the JS API ASYNCHRONOUSLY below so the rest of the page will render while the JS API loads .-->
    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0eEKj9b-u-p4d4UK-dPxaOoueKfoN9fU&callback=initMap">

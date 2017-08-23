@@ -1,44 +1,4 @@
-/*=======MODEL========*/
-// var locations;
-var mrMap;
-var markers = [];
-// The following function to initializes the map
-function initMap() {
-  mrMap = new google.maps.Map(document.getElementById('map'), {
-    center: {
-      lat: 40.7413549,
-      lng: -73.99802439999996
-    },
-    zoom: 12
-  });
-
-
-var infowindow = new google.maps.InfoWindow();
-
-
-// var marker, i;
-
-  // The following group uses the location array to create an array of markers on initialize.
-  for (var i = 0; i < locations.length; i++) {
-  var marker = new google.maps.Marker({
-    position: new google.maps.LatLng(locations[i].location),
-    map: mrMap,
-    animation: google.maps.Animation.DROP,
-    icon: 'images/rail.png'
- });
-   
-   
-
-    google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        return function() {
-          infowindow.setContent('<div><strong>' + locations[i].title+'</strong><br>' + locations[i].address + '<br>' +'Subway:' + locations[i].subway +'</div>');
-          infowindow.open(map, marker);
-        };
-      })(marker, i));
-
-  }
-}
- var locations =[
+var locations =[
     {
       title: 'Brooklyn Bridge',
       location: {
@@ -47,6 +7,7 @@ var infowindow = new google.maps.InfoWindow();
       },
       address:'Bridge St, Brooklyn, NY 11201',
       subway:'4,5,6'
+
     },
 
     {
@@ -57,6 +18,7 @@ var infowindow = new google.maps.InfoWindow();
       },
       address:'59th Street and 5th Ave, NY, NY 10020',
       subway: 'A, B, C, D, 1'
+
     },
 
     {
@@ -77,6 +39,7 @@ var infowindow = new google.maps.InfoWindow();
       },
       address:'1681 Broadway NY, NY 10019',
       subway:'B, D, E'
+
     },
 
     {
@@ -86,18 +49,87 @@ var infowindow = new google.maps.InfoWindow();
         lng: -73.9739882
       },
       address:'Central Park West at 79th Street NY,NY 10024',
-      subway:'A, B, C',
-    }];
-  
-  this.filter = ko.observable("")
+      subway:'A, B, C'
 
-  var viewModel = function() {
-  //These are the markers that will be shown to the users
+    }];
+
+
+function initMap() {
+  mrMap = new google.maps.Map(document.getElementById('map'), {
+    center: {
+      lat: 40.7413549,
+      lng: -73.99802439999996
+    },
+    zoom: 12
+  });
+ 
+ var infowindow = new google.maps.InfoWindow();
+
+ 
+  for (var i = 0; i < locations.length; i++) {
+    // Get the position from the location array.
+    var position = locations[i].location;
+    var title = locations[i].title;
+    // Create a marker per location, and put into markers array.
+    var marker = new google.maps.Marker({
+      position: position,
+      title: title,
+      map: mrMap,
+      animation: google.maps.Animation.DROP,
+      id: i,
+      icon: 'images/rail.png'
+    });
+    locations[i].marker = marker;
+    
+     google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent('<div><strong>' + locations[i].title+'</strong><br>' + locations[i].address + '<br>' +'Subway:' + locations[i].subway +'</div>');
+          infowindow.open(map, marker);
+        };
+      })(marker, i));
+
+  };
+
+ 
+ 
+ ko.applyBindings(new ViewModel())
+};
+
+var Loc = function(data) {
+  this.title = data.title;
+  this.location = data.location;
+  this.marker = data.marker;
+};
+
+var ViewModel = function() {
   var self = this;
 
+  self.listLoc = ko.observableArray();
+
+  locations.forEach(function(locItem) {
+    self.listLoc.push(new Loc(locItem))
+  });
+
+  self.filter = ko.observable('');
+
+  self.filteredItems = ko.computed(function() {
+    var filter = self.filter().toLowerCase();
+    if (!filter) {
+      ko.utils.arrayForEach(self.listLoc(), function (item) {
+        item.marker.setVisible(true);
+      });
+      return self.listLoc();
+    } else {
+      return ko.utils.arrayFilter(self.listLoc(), function(item) {
+        // set all markers visible (false)
+        var result = (item.title.toLowerCase().search(filter) >= 0)
+        item.marker.setVisible(result);
+        return result;
+      });
+    }
+  });
+
+  self.setLoc = function(clickedLoc) {
+    clickedLoc.marker.setAnimation(google.maps.Animation.BOUNCE);
+  };
 }
-
-   
-
-
-   ko.applyBindings(new viewModel());
