@@ -16,7 +16,7 @@
       <input placeholder="Hot spot..." data-bind="textInput: filter" />
 
       <ul id="menu" data-bind="foreach: filteredItems">
-        <li data-bind="text: title,click: $parent.setLoc"></li>
+       <a href="#"> <li data-bind="text: title,click: $parent.setLoc"></li></a>
       </ul>
     </div>
     <div id="map">

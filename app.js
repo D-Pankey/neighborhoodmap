@@ -122,8 +122,8 @@ var fourSquareUrl = 'https://api.foursquare.com/v2/venues/search?ll=' + self.pos
 
 
  
- ko.applyBindings(new ViewModel())
-};
+ ko.applyBindings(new ViewModel());
+}
 
 var Loc = function(data) {
   this.title = data.title;
@@ -140,7 +140,7 @@ var ViewModel = function() {
   self.listLoc = ko.observableArray();
 
   locations.forEach(function(locItem) {
-    self.listLoc.push(new Loc(locItem))
+    self.listLoc.push(new Loc(locItem));
   });
 
   self.filter = ko.observable('');
@@ -156,7 +156,7 @@ var ViewModel = function() {
       return ko.utils.arrayFilter(self.listLoc(), function(item) {
     
      // set all markers visible (false)
-        var result = (item.title.toLowerCase().search(filter) >= 0)
+        var result = (item.title.toLowerCase().search(filter) >= 0);
         item.marker.setVisible(result);
         return result;
       });
@@ -164,13 +164,13 @@ var ViewModel = function() {
   });
 //Clicking a location on the list animates its associated map marker
   self.setLoc = function(clickedLoc) {
-    console.log(clickedLoc)
+    
 //triggers Infowindow to open when item on list is clicked
-    google.maps.event.trigger(clickedLoc.marker, 'click')
+    google.maps.event.trigger(clickedLoc.marker, 'click');
     clickedLoc.marker.setAnimation(google.maps.Animation.BOUNCE);
          setTimeout(function() {
         clickedLoc.marker.setAnimation(null);
       }, 2000);
   };
  
-}
+};
