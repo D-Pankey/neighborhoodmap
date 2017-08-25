@@ -3,13 +3,13 @@
  
  <head>
   <meta charset="utf-8">
-  <meta name=viewport content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css"><link>
     <title> Neighborhood Map</title>
 </head>
 <body>
-
  <div class="container">
+
   <div class="sidebar">
     <input placeholder="Hot spot..." data-bind="textInput: filter" />
 
@@ -23,9 +23,12 @@
 </div>
     <main id="map"></main>
    <!--TODO: We want to Load the JS API ASYNCHRONOUSLY below so the rest of the page will render while the JS API loads .-->
-   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0eEKj9b-u-p4d4UK-dPxaOoueKfoN9fU&callback=initMap">
-   </script>
+  
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+  </script>
    <script src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js'></script>
    <script type="text/javascript" src='app.js'></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0eEKj9b-u-p4d4UK-dPxaOoueKfoN9fU&callback=initMap" onerror="maperror()">
+   </script>
  </body>
 </html>
