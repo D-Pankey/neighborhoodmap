@@ -1,4 +1,4 @@
-//========MODEL=======
+
 
 var map;
 
@@ -39,7 +39,7 @@ var locations =[
         lng: -73.9739882
       }}];
 
-
+//Alerts User that there was an error loading map
 function maperror() {
     alert("There is a problem with Google Maps. Please reload page");
 }
@@ -60,7 +60,7 @@ function initMap() {
  
 
  // The following group uses the location array to create an array of markers on initialize.
-  for (var i = 0; i < locations.length; i++) {
+  locations.forEach(function(location,i) {
     // Get the position from the location array.
     this.position = locations[i].location;
     var title = locations[i].title;
@@ -118,7 +118,7 @@ var fourSquareUrl = 'https://api.foursquare.com/v2/venues/search?ll=' + self.pos
       })(marker, i));
 
  
-  };
+  });
 
 
  
