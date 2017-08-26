@@ -1,37 +1,75 @@
 <!DOCTYPE html>
+
 <html>
 
+
+
 <head>
+
   <meta charset="utf-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <link>
+  
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  -->
+  <link rel="stylesheet" href="style.css"> 
+
+
+
   <title> Neighborhood Map</title>
+
 </head>
 
+
+
 <body>
+
   <div class="container">
 
-    <div class="sidebar">
+
+
+    <div class="forminline">
+
       <input placeholder="Hot spot..." data-bind="textInput: filter" />
 
+
+
       <ul id="menu" data-bind="foreach: filteredItems">
-       <a href="#"> <li data-bind="text: title,click: $parent.setLoc"></li></a>
+
+        <li data-bind="text: title,click: $parent.setLoc"></li>
+
       </ul>
+
     </div>
+
     <div id="map">
 
+
+
     </div>
+
   </div>
-  <main id="map"></main>
+
+  <!-- <main id="map"></main> -->
+
   <!--TODO: We want to Load the JS API ASYNCHRONOUSLY below so the rest of the page will render while the JS API loads .-->
 
+
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+
   </script>
+
   <script src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js'></script>
+
   <script type="text/javascript" src='app.js'></script>
+
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0eEKj9b-u-p4d4UK-dPxaOoueKfoN9fU&callback=initMap" onerror="maperror()">
+
   </script>
+
 </body>
+
+
 
 </html>
